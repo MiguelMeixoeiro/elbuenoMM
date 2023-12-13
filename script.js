@@ -1,7 +1,6 @@
 // script.js
 const itemsPerPage = 5;
 const productContainer = document.getElementById('product-container');
-const paginationContainer = document.getElementById('pagination-container');
 const prevPageBtn = document.getElementById('prevPageBtn');
 const nextPageBtn = document.getElementById('nextPageBtn');
 const currentPageSpan = document.getElementById('currentPage');
@@ -11,10 +10,23 @@ const closeModal = document.getElementsByClassName('close')[0];
 
 let cartItems = 0;
 let cartProducts = [];
+const loadingGif = document.getElementById('loading-gif'); // Agregado para el GIF de carga
+const additionalGif1 = document.getElementsByClassName('additional-gif1')[0];
+const additionalGif2 = document.getElementsByClassName('additional-gif2')[0];
+
+// Mostrar el GIF de carga antes de hacer la solicitud a la API
+loadingGif.style.display = 'block';
+additionalGif1.style.display = 'block';
+additionalGif2.style.display = 'block';
 
 fetch('http://makeup-api.herokuapp.com/api/v1/products.json')
   .then(response => response.json())
   .then(data => {
+    // Ocultar el GIF de carga después de que se completa la solicitud de la API
+    loadingGif.style.display = 'none';
+    additionalGif1.style.display = 'none';
+    additionalGif2.style.display = 'none';
+
     console.log('Data from API:', data);
 
     let currentPage = 1;
@@ -37,9 +49,19 @@ fetch('http://makeup-api.herokuapp.com/api/v1/products.json')
 
         // Intenta cargar la imagen desde la API
         if (product.image_link) {
+          // Intenta cargar la imagen desde la API
           productImage.src = product.image_link;
+
+          // Manejar el evento de error de carga de la imagen
+          productImage.onerror = function() {
+            // Verificar si el error es 404
+            if (this.naturalWidth === 0 && this.naturalHeight === 0) {
+              // Si hay un error 404 al cargar la imagen desde la API, usa la imagen local predeterminada
+              this.src = './nofoto.jpg';
+            }
+          };
         } else {
-          // Si no se puede cargar desde la API, usa una imagen local predeterminada
+          // Si no se proporciona un enlace de imagen, usa la imagen local predeterminada
           productImage.src = './nofoto.jpg';
         }
 
@@ -111,7 +133,11 @@ fetch('http://makeup-api.herokuapp.com/api/v1/products.json')
 
     displayProducts(currentPage);
   })
-  .catch(error => console.error('Error al obtener datos de la API:', error));
+  .catch(error => {
+    // Ocultar el GIF de carga en caso de error
+    loadingGif.style.display = 'none';
+    console.error('Error al obtener datos de la API:', error);
+  });
 
 // Función para cambiar el estado del corazón
 function toggleHeart(heartButton) {
@@ -149,4 +175,4 @@ function openCartPage() {
 
   // Redirige a la página del carrito
   window.location.href = 'carrito.html';
-}
+};
