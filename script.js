@@ -1,5 +1,4 @@
 // script.js
-
 const itemsPerPage = 5;
 const productContainer = document.getElementById('product-container');
 const paginationContainer = document.getElementById('pagination-container');
@@ -11,6 +10,7 @@ const modal = document.getElementById('modal');
 const closeModal = document.getElementsByClassName('close')[0];
 
 let cartItems = 0;
+let cartProducts = [];
 
 fetch('http://makeup-api.herokuapp.com/api/v1/products.json')
   .then(response => response.json())
@@ -55,8 +55,11 @@ fetch('http://makeup-api.herokuapp.com/api/v1/products.json')
         productBrand.textContent = `Marca: ${product.brand}`;
 
         const productPrice = document.createElement('p');
-        const randomPrice = Math.floor(Math.random() * (100 - 10 + 1) + 10);
-        productPrice.textContent = `Precio: $${randomPrice.toFixed(2)}`;
+        if (typeof product.price !== 'undefined') {
+          productPrice.textContent = `Precio: $${product.price}`;
+        } else {
+          productPrice.textContent = 'Precio no disponible';
+        }
 
         productInfoDiv.appendChild(productName);
         productInfoDiv.appendChild(productBrand);
@@ -85,7 +88,10 @@ fetch('http://makeup-api.herokuapp.com/api/v1/products.json')
         // Event listeners para los botones
         heartButton.addEventListener('click', () => toggleHeart(heartButton));
         plusButton.addEventListener('click', openModal);
-        cartButton.addEventListener('click', () => addToCart(product));
+        // Event listener para el botón de carrito dentro del div de información del producto
+        cartButton.addEventListener('click', () => {
+          addToCart(product);
+        });
       });
 
       const totalPages = Math.ceil(data.length / itemsPerPage);
@@ -125,6 +131,22 @@ closeModal.onclick = function() {
 // Función para agregar al carrito
 function addToCart(product) {
   cartItems++;
-  cartCount.textContent = `Carrito: ${cartItems}`;
+  cartProducts.push(product);
+
+  cartCount.textContent = `🛒: ${cartItems}`;
   // Puedes agregar más lógica aquí, como almacenar el producto en una lista de carrito.
+}
+
+// Event listener para el botón de carrito en el footer
+cartCount.addEventListener('click', () => {
+  openCartPage();
+});
+
+// Función para abrir la página del carrito
+function openCartPage() {
+  // Almacena la lista de productos en el carrito en localStorage
+  localStorage.setItem('cartProducts', JSON.stringify(cartProducts));
+
+  // Redirige a la página del carrito
+  window.location.href = 'carrito.html';
 }

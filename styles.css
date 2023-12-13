@@ -2,10 +2,10 @@
 
 body {
   min-height: 100vh;
-  font-family: Arial, sans-serif;
+  font-family:  Khand Medium;
   margin: 0;
   padding: 0;
-  background-color: #f4f4f4;
+  background-color: #FFDDD2;
   overflow: hidden;  
 }
 
@@ -43,7 +43,7 @@ footer {
   display: flex;
   flex-direction: column;
   background-color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 4px 8px rgba(0.1, 0.1, 0.1, 0.1);
   text-align: center;
   height: 200px;
   margin-inline: 10px;
@@ -60,10 +60,13 @@ img {
 .product-info {
   flex-grow: 1;
   height: 100%;
+  background-color:#FFDDD2 ;
 }
 
 h2 {
   font-size: 1rem;
+  color:#006D77;
+  font-family:  Khand Medium;
 }
 
 p {
@@ -74,17 +77,22 @@ p {
   display: flex;
   justify-content:center;
   zoom: 60%;
+  background-color: #FFDDD2;
 }
 
 .heart-button.filled {
-  color: rgb(255, 0, 170);
+  color: #E29578;
   font-size: 32px;
+  background-color:#FFDDD2;
 }
 
+.heart-button,
 .plus-button,
 .cart-button {
   font-size: 18px;
   cursor: pointer;
+  border:transparent;
+  background-color: #FFDDD2;
   
 }
 
@@ -96,7 +104,7 @@ p {
 .pagination {
   text-align: center;
   position: absolute;
-  bottom: 10vh;
+  bottom: 9vh;
   left: 36.5rem;
 }
 
@@ -109,7 +117,7 @@ button {
 
 #prevPageBtn,
 #nextPageBtn {
-  background-color: #000;
+  background-color: #006D77;
   color: white;
   border: #000;
   border-radius: 50%;
