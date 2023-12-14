@@ -28,6 +28,7 @@ footer {
   display: flex;
   justify-content: space-around;
   align-items: flex-start;
+  margin: 5%;
 }
 
 .gallery-container {
@@ -95,6 +96,7 @@ img {
 }
 
 h2 {
+  max-width: 200px;
   font-size: 1rem;
   color: #006D77;
   font-family: 'Khand Medium', sans-serif;
@@ -107,7 +109,8 @@ p {
 .buttons-container {
   display: flex;
   justify-content: center;
-  zoom: 60%;
+  max-width: 200px;
+  max-height: 200px;
   background-color: #FFDDD2;
 }
 
@@ -177,6 +180,7 @@ button {
   text-align: center;
 }
 
+
 .close {
   color: #aaa;
   float: right;
@@ -190,3 +194,4 @@ button {
   text-decoration: none;
   cursor: pointer;
 }
+

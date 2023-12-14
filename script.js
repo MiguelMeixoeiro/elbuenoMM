@@ -47,21 +47,15 @@ fetch('http://makeup-api.herokuapp.com/api/v1/products.json')
 
         const productImage = document.createElement('img');
 
-        // Intenta cargar la imagen desde la API
         if (product.image_link) {
-          // Intenta cargar la imagen desde la API
           productImage.src = product.image_link;
 
-          // Manejar el evento de error de carga de la imagen
           productImage.onerror = function() {
-            // Verificar si el error es 404
             if (this.naturalWidth === 0 && this.naturalHeight === 0) {
-              // Si hay un error 404 al cargar la imagen desde la API, usa la imagen local predeterminada
               this.src = './nofoto.jpg';
             }
           };
         } else {
-          // Si no se proporciona un enlace de imagen, usa la imagen local predeterminada
           productImage.src = './nofoto.jpg';
         }
 
@@ -90,27 +84,31 @@ fetch('http://makeup-api.herokuapp.com/api/v1/products.json')
         productDiv.appendChild(productImage);
         productDiv.appendChild(productInfoDiv);
 
+        const buttonsContainer = document.createElement('div');
+        buttonsContainer.classList.add('buttons-container'); // Nuevo div para los botones
+
         const heartButton = document.createElement('button');
         heartButton.textContent = '♥';
         heartButton.classList.add('heart-button');
-        productDiv.appendChild(heartButton);
+        buttonsContainer.appendChild(heartButton);
 
         const plusButton = document.createElement('button');
         plusButton.textContent = '+ info';
         plusButton.classList.add('plus-button');
-        productDiv.appendChild(plusButton);
+        buttonsContainer.appendChild(plusButton);
 
         const cartButton = document.createElement('button');
         cartButton.textContent = '🛒';
         cartButton.classList.add('cart-button');
-        productDiv.appendChild(cartButton);
+        buttonsContainer.appendChild(cartButton);
+
+        productDiv.appendChild(buttonsContainer); // Agregamos el nuevo div de botones al producto
 
         productContainer.appendChild(productDiv);
 
         // Event listeners para los botones
         heartButton.addEventListener('click', () => toggleHeart(heartButton));
         plusButton.addEventListener('click', openModal);
-        // Event listener para el botón de carrito dentro del div de información del producto
         cartButton.addEventListener('click', () => {
           addToCart(product);
         });
@@ -139,6 +137,8 @@ fetch('http://makeup-api.herokuapp.com/api/v1/products.json')
     console.error('Error al obtener datos de la API:', error);
   });
 
+// ... (resto del código)
+
 // Función para cambiar el estado del corazón
 function toggleHeart(heartButton) {
   heartButton.classList.toggle('filled');
@@ -160,7 +160,6 @@ function addToCart(product) {
   cartProducts.push(product);
 
   cartCount.textContent = `🛒: ${cartItems}`;
-  // Puedes agregar más lógica aquí, como almacenar el producto en una lista de carrito.
 }
 
 // Event listener para el botón de carrito en el footer
@@ -170,9 +169,6 @@ cartCount.addEventListener('click', () => {
 
 // Función para abrir la página del carrito
 function openCartPage() {
-  // Almacena la lista de productos en el carrito en localStorage
   localStorage.setItem('cartProducts', JSON.stringify(cartProducts));
-
-  // Redirige a la página del carrito
   window.location.href = 'carrito.html';
 };
