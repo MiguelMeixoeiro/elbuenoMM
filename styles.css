@@ -58,9 +58,9 @@ img {
 
 #loading-gif {
   display: block;
-  margin: auto; /* Centra horizontalmente */
+  margin: auto;
   position: absolute;
-  top: 50%; /* Centra verticalmente */
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -68,7 +68,7 @@ img {
 .additional-gif {
   display: block;
   position: absolute;
-  top: 50%; /* Centra verticalmente */
+  top: 50%;
   height: 100px;
   width: 100px;
 }
@@ -77,7 +77,7 @@ img {
   zoom: 60%;
   position: absolute;
   left: 76px;
-    top: 242px;
+  top: 242px;
 }
 
 .additional-gif2 {
@@ -122,7 +122,8 @@ p {
 
 .heart-button,
 .plus-button,
-.cart-button {
+.cart-button,
+.wishlist-button {
   font-size: 18px;
   cursor: pointer;
   border: transparent;
@@ -130,7 +131,8 @@ p {
 }
 
 .plus-button:hover,
-.cart-button:hover {
+.cart-button:hover,
+.wishlist-button:hover {
   color: #83C5BE;
 }
 
@@ -180,7 +182,6 @@ button {
   text-align: center;
 }
 
-
 .close {
   color: #aaa;
   float: right;
@@ -194,4 +195,3 @@ button {
   text-decoration: none;
   cursor: pointer;
 }
-
