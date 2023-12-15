@@ -10,10 +10,9 @@ const loadingGif = document.getElementById('loading-gif');
 const additionalGif1 = document.getElementsByClassName('additional-gif1')[0];
 const additionalGif2 = document.getElementsByClassName('additional-gif2')[0];
 const wishlistButton = document.createElement('button');
-wishlistButton.textContent = '♥ Wishlist';
-wishlistButton.classList.add('wishlist-button');
 
-document.querySelector('header').appendChild(wishlistButton);
+
+
 
 let cartItems = 0;
 let cartProducts = [];
