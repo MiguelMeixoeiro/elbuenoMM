@@ -12,6 +12,26 @@ const additionalGif2 = document.getElementsByClassName('additional-gif2')[0];
 const wishlistButton = document.createElement('button');
 
 
+document.querySelector('.nav-icons .fa-heart').addEventListener('click', () => {
+    openWishlistModal();
+});
+
+function openWishlistModal() {
+    const wishlistContent = wishlist.length > 0
+        ? wishlist.map(product => `<p>${product.name}</p>`).join('')
+        : 'Tu wishlist está vacía';
+
+    modal.innerHTML = `
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Wishlist</h2>
+            ${wishlistContent}
+        </div>
+    `;
+
+    modal.style.display = 'block';
+}
+
 
 
 let cartItems = 0;
@@ -112,9 +132,7 @@ fetch('http://makeup-api.herokuapp.com/api/v1/products.json')
 
                 heartButton.addEventListener('click', () => toggleHeart(heartButton, product));
                 plusButton.addEventListener('click', openModal);
-                cartButton.addEventListener('click', () => {
-                    addToCart(product);
-                });
+              
             });
 
             const totalPages = Math.ceil(data.length / itemsPerPage);
@@ -155,13 +173,23 @@ function toggleHeart(heartButton, product) {
     }
 }
 
-function openModal() {
+function openModal(product) {
+    const productInfoContent = `
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Información Adicional</h2>
+            <p>Nombre: ${product.name}</p>
+            <p>Marca: ${product.brand}</p>
+            <p>Precio: ${typeof product.price !== 'undefined' ? `$${product.price}` : 'Precio no disponible'}</p>
+            <p>Otra información relevante...</p>
+        </div>
+    `;
+
+    modal.innerHTML = productInfoContent;
     modal.style.display = 'block';
 }
 
-closeModal.onclick = function() {
-    modal.style.display = 'none';
-};
+
 
 function addToCart(product) {
     cartItems++;
@@ -169,31 +197,43 @@ function addToCart(product) {
     cartCount.textContent = `🛒: ${cartItems}`;
 }
 
-cartCount.addEventListener('click', () => {
-    openCartPage();
+
+document.getElementById('cartButton').addEventListener('click', function() {
+    window.location.href = 'carrito.html';
 });
 
 function openCartPage() {
-    localStorage.setItem('cartProducts', JSON.stringify(cartProducts));
+    localStorage.setItem('cartButton', JSON.stringify(cartProducts));
     window.location.href = 'carrito.html';
 }
 
-wishlistButton.addEventListener('click', () => {
-    openWishlistModal();
+document.addEventListener('DOMContentLoaded', () => {
+    const heartIcon = document.querySelector('.nav-icons a.nav-link i.fas.fa-heart');
+
+    if (heartIcon) {
+        heartIcon.addEventListener('click', () => {
+            openWishlistModal();
+        });
+    } else {
+        console.error('No se encontró el elemento con la clase .nav-icons a.nav-link i.fas.fa-heart');
+    }
 });
 
-function openWishlistModal() {
-    const wishlistContent = wishlist.length > 0
-        ? wishlist.map(product => `<p>${product.name}</p>`).join('')
-        : 'Tu wishlist está vacía';
-
-    modal.innerHTML = `
+function openAdditionalInfoModal(product) {
+    const additionalInfoContent = `
         <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Wishlist</h2>
-            ${wishlistContent}
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Información Adicional</h2>
+            <p>Nombre: ${product.name}</p>
+            <p>Marca: ${product.brand}</p>
+            <p>Precio: ${typeof product.price !== 'undefined' ? `$${product.price}` : 'Precio no disponible'}</p>
+            <p>Otra información relevante...</p>
         </div>
     `;
 
+    modal.innerHTML = additionalInfoContent;
     modal.style.display = 'block';
 }
+// function closeModal() {
+//     modal.style.display = 'none';
+// }
